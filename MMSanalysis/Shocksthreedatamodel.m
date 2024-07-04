@@ -1,3 +1,6 @@
+%% Comparison of MMS observations and Liouville mapping model. 
+% Data files produced by Liouville mapping routines are required to execute this script.
+
 %% Set times
 Tints1 = irf.tint('2023-04-24T02:29:11.85Z/2023-04-24T02:29:11.85Z');
 Tints3 = irf.tint('2023-04-24T04:02:03.384Z/2023-04-24T04:02:04.384Z');
