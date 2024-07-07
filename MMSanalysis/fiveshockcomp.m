@@ -18,9 +18,9 @@ Vsn4 = -50;
 Vsn5 = 40;
 
 %% Shock coordinate systems
-ndsl = [0.9686    0.0056   -0.2487];
-t1dsl = [-0.2263   -0.4382   -0.8700];
-t2dsl = [0.2695    0.8301   -0.4882];
+ndsl = [0.9203   -0.3886   -0.0445];
+t1dsl = [-0.2271   -0.4383   -0.8696];
+t2dsl = [0.3184    0.8105   -0.4917];
 ndsl1 = ndsl/norm(ndsl);
 t1dsl1 = t1dsl/norm(t1dsl);
 t2dsl1 = t2dsl/norm(t2dsl);

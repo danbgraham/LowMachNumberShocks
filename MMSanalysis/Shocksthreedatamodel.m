@@ -1,6 +1,3 @@
-%% Comparison of MMS observations and Liouville mapping model. 
-% Data files produced by Liouville mapping routines are required to execute this script.
-
 %% Set times
 Tints1 = irf.tint('2023-04-24T02:29:11.85Z/2023-04-24T02:29:11.85Z');
 Tints3 = irf.tint('2023-04-24T04:02:03.384Z/2023-04-24T04:02:04.384Z');
@@ -10,6 +7,7 @@ Tints5 = irf.tint('2023-04-24T04:21:00.00Z/2023-04-24T04:21:00.00Z');
 Vsn1 = 50;
 Vsn3 = 60;
 Vsn4 = -50;
+Vsn5 = 40;
 
 ndistframp = [-500 2000];
 Tint1 = Tints1+[ndistframp(1)/Vsn1 ndistframp(2)/Vsn1];
@@ -30,9 +28,9 @@ Bxyz4 = mms.get_data('B_dmpa_brst_l2',Tint4,ic);
 %Bxyz5 = mms.get_data('B_dmpa_brst_l2',Tint5,ic);
 
 %% Define Coordinate systems
-ndsl = [0.9686    0.0056   -0.2487];
-t1dsl = [-0.2263   -0.4382   -0.8700];
-t2dsl = [0.2695    0.8301   -0.4882];
+ndsl = [0.9203   -0.3886   -0.0445];
+t1dsl = [-0.2271   -0.4383   -0.8696];
+t2dsl = [0.3184    0.8105   -0.4917];
 ndsl1 = ndsl/norm(ndsl);
 t1dsl1 = t1dsl/norm(t1dsl);
 t2dsl1 = t2dsl/norm(t2dsl);
@@ -90,6 +88,9 @@ f1Dt23 = iPDist3.reduce('1D',t2vec3,'vg',vg1Dt2,'nMC',nMC);
 f1Dn4 = iPDist4.reduce('1D',nvec4,'vg',vg1Dn,'nMC',nMC);
 f1Dt24 = iPDist4.reduce('1D',t2vec4,'vg',vg1Dt2,'nMC',nMC);
 
+%f1Dn5 = iPDist5.reduce('1D',nvec5,'vg',vg1Dn,'nMC',nMC);
+%f1Dt25 = iPDist5.reduce('1D',t2vec5,'vg',vg1Dt2,'nMC',nMC);
+
 %% Shift distributions to NIF
 f1Dn1.depend{1,1} = f1Dn1.depend{1,1}-50;
 f1Dn1.ancillary.v_edges = f1Dn1.ancillary.v_edges-50;
@@ -123,8 +124,11 @@ load('histstruct_shock4.mat');
 modeldists4 = histstruct;
 moms4 = calculatemodelmoments(modeldists4);
 
-%% Calculate bulk proton velocites from peaks
-% Estimation from Observations 
+%load('histstruct_shock5.mat');
+%modeldists5 = histstruct;
+
+%% calculate bulk proton velocites from peaks
+% Observations 
 [~,idxv] = max(f1Dn1.data,[],2);
 vnvec = f1Dn1.depend{1,1}(1,:);
 vn1 = vnvec(idxv);
@@ -155,7 +159,27 @@ vt2vec = f1Dt24.depend{1,1}(1,:);
 vt24 = vt2vec(idxv);
 vt24 = irf.ts_scalar(f1Dt24.time,vt24);
 
-% Moments from model
+% Model 
+if 0,
+[~,idxv] = max(modeldists1.n1Dvx,[],2);
+vn1m = modeldists1.vxpositions(idxv);
+
+[~,idxv] = max(modeldists1.n1Dvz,[],2);
+vt21m = modeldists1.vzpositions(idxv);
+
+[~,idxv] = max(modeldists3.n1Dvx,[],2);
+vn3m = modeldists1.vxpositions(idxv);
+
+[~,idxv] = max(modeldists3.n1Dvz,[],2);
+vt23m = modeldists3.vzpositions(idxv);
+
+[~,idxv] = max(modeldists4.n1Dvx,[],2);
+vn4m = modeldists4.vxpositions(idxv);
+
+[~,idxv] = max(modeldists4.n1Dvz,[],2);
+vt24m = modeldists4.vzpositions(idxv);
+end
+
 vn1m = moms1.vx;
 vt21m = moms1.vz;
 
